@@ -119,7 +119,7 @@
            <input type="text" id="driverFirstName" name="First_Name__c" class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm" autocomplete="off" />
          </div>
          <div class="flex-1">
-           <label for="driverMiddleName" class="block text-sm font-medium text-gray-700">Middle Initial</label>
+           <label for="driverMiddleName" class="block text-sm font-medium text-gray-700">Middle Name</label>
            <input type="text" id="driverMiddleName" name="Middle_Name__c" class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm" autocomplete="off" />
          </div>
          <div class="flex-1">
@@ -158,7 +158,7 @@
          </div>
          <div class="flex-1">
            <label for="driverRelationship" class="block text-sm font-medium text-gray-700">Relationship<span class="star">*</span></label>
-           <select id="driverRelationship" name="Relationship_to_Insured__c" class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm">
+           <select id="driverRelationship" name="Relationship_To_Insured_AutoOwners" class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm">
              <option value="">--Select--</option>
              <option value="Spouse">Spouse</option>
              <option value="Unrelated Named Insured">Unrelated Named Insured</option>
@@ -204,12 +204,12 @@
         <!-- City of Employment - HIDDEN BY DEFAULT -->
         <div id="cityOfEmploymentField" class="mb-3 hidden">
          <label for="cityOfEmployment" class="block text-sm font-medium text-gray-700">
-           City of Employment<span class="star">*</span>
+           City of Employer/School<span class="star">*</span>
          </label>
          <input
            type="text"
            id="cityOfEmployment"
-           name="City_of_Employment__c"
+           name="City_of_Employer_School__c"
            class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm"
            autocomplete="off"
          />
@@ -223,7 +223,7 @@
            </label>
            <select
              id="licenseState"
-             name="License_State__c"
+             name="License_State_AutoOwners__c"
              class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm"
            >
              <option value="">--Select--</option>
@@ -240,7 +240,7 @@
            <input
              type="text"
              id="licenseNumber"
-             name="License_Number__c"
+             name="Drivers_license_number__c"
              class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm"
              autocomplete="off"
            />
@@ -253,7 +253,7 @@
             <label for="goodStudentDriver" class="block text-sm font-medium text-gray-700">
               Good Student Driver<span class="star">*</span>
             </label>
-            <select id="goodStudentDriver" name="Good_Student_Driver__c" class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm">
+            <select id="goodStudentDriver" name="Good_Student_Driver_AutoOwners" class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm">
               <option value="">--Select--</option>
               <option value="Yes">Yes</option>
               <option value="No">No</option>
@@ -322,7 +322,7 @@
   <input
     type="number"
     id="vehicleDriverAge"
-    name="Vehicle_Driver_Age__c"
+    name="Age__c"
     min="0"
     class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm"
     autocomplete="off"
@@ -429,13 +429,7 @@ const goodStudentNote = document.getElementById('goodStudentNote');
         const motorcycleSafetyField = document.getElementById("motorcycleSafetyField");
         const relationshipSelect = document.getElementById("driverRelationship");
 
-        // Middle Name Logic
-        const middleNameInput = document.getElementById("driverMiddleName");
-        middleNameInput.addEventListener("input", function () {
-         if (middleNameInput.value.length > 1) {
-           middleNameInput.value = middleNameInput.value.charAt(0);
-         }
-        });
+        
 
         // Toggle employment fields based on relationship
         function toggleEmploymentFields() {
