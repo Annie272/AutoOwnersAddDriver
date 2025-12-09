@@ -1,1 +1,530 @@
-AutoOwnersAddDriver
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>AutoOwners Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Pikaday Datepicker Library -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+    <style>
+      .hidden {
+        display: none;
+      }
+      .star {
+        color: #ef4444;
+        margin-left: 2px;
+      }
+      .modal-bg {
+        background: rgba(0, 0, 0, 0.4);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 flex items-center justify-center min-h-screen p-6">
+    <form
+      id="mainForm"
+      action="https://test.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&orgId=00DU7000006EuID"
+      method="POST"
+      class="bg-white p-8 rounded-2xl shadow-md w-full max-w-xl space-y-8 relative"
+      autocomplete="off"
+      novalidate
+    >
+      <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">
+        Add Driver AutoOwners Form
+      </h2>
+
+      <div class="bg-gray-50 border rounded-xl p-6 shadow-inner">
+        <h3 class="text-xl font-semibold mb-4 text-gray-700">Policy Changes</h3>
+
+        <!-- Email -->
+        <div class="mb-3">
+          <label for="email" class="block text-sm font-medium text-gray-700">
+            Email<span class="star">*</span>
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            autocomplete="off"
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Select the Request Type:<span class="star">*</span></label>
+          <div class="flex space-x-4 mb-2">
+            <label class="inline-flex items-center ">
+              <input type="radio" name="00NU7000006IOzh" value="Quote" required class="mr-2 " />Quote
+            </label>
+            <label class="inline-flex items-center">
+              <input type="radio" name="00NU7000006IOzh" value="Endorse" required class="mr-2" />Endorsement
+            </label>
+          </div>
+          <div id="quotePolicyError" class="error-message hidden ">Please select an option</div>
+        </div>
+
+        <!-- Policy Action (hidden, always "Add Driver") -->
+        <input
+          type="hidden"
+          id="00NU7000005zuNN"
+          name="00NU7000005zuNN"
+          value="Add Driver"
+        />
+
+        <!-- Policy Number -->
+        <div class="mb-3">
+          <label
+            for="00NU7000005zuX3"
+            class="block text-sm font-medium text-gray-700"
+          >
+            Policy Number<span class="star">*</span>
+          </label>
+          <input
+            type="text"
+            id="00NU7000005zuX3"
+            name="00NU7000005zuX3"
+            class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm"
+            autocomplete="off"
+          />
+        </div>
+        <!-- Effective Date -->
+        <div class="mb-3">
+          <label
+            for="00NU7000005zuLl"
+            class="block text-sm font-medium text-gray-700"
+          >
+            Effective Date <span class="star">*</span>
+          </label>
+          <input
+            type="text"
+            id="00NU7000005zuLl"
+            name="00NU7000005zuLl"
+            placeholder="MM/DD/YYYY"
+            maxlength="10"
+            class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            autocomplete="off"
+            readonly
+          />
+        </div>
+      </div>
+
+      <!-- New Add Driver Details box -->
+      <div class="bg-gray-50 border rounded-xl p-6 shadow-inner mt-8">
+        <h3 class="text-xl font-semibold mb-4 text-gray-700">Add Driver Details</h3>
+        
+        <!-- First, Middle, Last Name in one row -->
+        <div class="flex space-x-4 mb-3">
+          <div class="flex-1">
+            <label for="driverFirstName" class="block text-sm font-medium text-gray-700">First Name<span class="star">*</span></label>
+            <input type="text" id="driverFirstName" name="First_Name__c" class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm" autocomplete="off" />
+          </div>
+          <div class="flex-1">
+            <label for="driverMiddleName" class="block text-sm font-medium text-gray-700">Middle Initial</label>
+            <input type="text" id="driverMiddleName" name="Middle_Name__c" class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm" autocomplete="off" />
+          </div>
+          <div class="flex-1">
+            <label for="driverLastName" class="block text-sm font-medium text-gray-700">Last Name<span class="star">*</span></label>
+            <input type="text" id="driverLastName" name="Last_Name__c" class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm" autocomplete="off" />
+          </div>
+        </div>
+
+        <!-- DOB and Gender in one row -->
+        <div class="flex space-x-4 mb-3">
+          <div class="flex-1">
+            <label for="driverDOB" class="block text-sm font-medium text-gray-700">Date of Birth<span class="star">*</span></label>
+            <input type="text" id="driverDOB" name="Date_of_Birth__c" class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm" placeholder="MM/DD/YYYY" maxlength="10" autocomplete="off" />
+          </div>
+          <div class="flex-1">
+            <label for="driverGender" class="block text-sm font-medium text-gray-700">Gender<span class="star">*</span></label>
+            <select id="driverGender" name="Gender__c" class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm">
+              <option value="">--Select--</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Marital Status and Relationship in one row -->
+        <div class="flex space-x-4 mb-3">
+          <div class="flex-1">
+            <label for="driverMaritalStatus" class="block text-sm font-medium text-gray-700">Marital Status<span class="star">*</span></label>
+            <select id="driverMaritalStatus" name="Marital_Status__c" class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm">
+              <option value="">--Select--</option>
+              <option value="Single">Single</option>
+              <option value="Married">Married</option>
+              <option value="Divorced">Divorced</option>
+              <option value="Widowed">Widowed</option>
+            </select>
+          </div>
+          <div class="flex-1">
+            <label for="driverRelationship" class="block text-sm font-medium text-gray-700">Relationship<span class="star">*</span></label>
+            <select id="driverRelationship" name="Relationship_to_Insured__c" class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm">
+              <option value="">--Select--</option>
+              <option value="Spouse">Spouse</option>
+              <option value="Unrelated Named Insured">Unrelated Named Insured</option>
+              <option value="Child">Child</option>
+              <option value="Resident Relative">Resident Relative</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Business/Industry and Occupation in one row - HIDDEN BY DEFAULT -->
+        <div id="employmentFields" class="flex space-x-4 mb-3 hidden">
+          <div class="flex-1">
+            <label for="businessIndustry" class="block text-sm font-medium text-gray-700">
+              Business/Industry<span class="star">*</span>
+            </label>
+            <select
+              id="businessIndustry"
+              name="Business_Industry__c"
+              class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm"
+            >
+              <option value="">--Select--</option>
+              <!-- values to be added later -->
+            </select>
+          </div>
+          <div class="flex-1">
+            <label for="occupation" class="block text-sm font-medium text-gray-700">
+              Occupation<span class="star">*</span>
+            </label>
+            <select
+              id="occupation"
+              name="Occupation__c"
+              class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm"
+            >
+              <option value="">--Select--</option>
+              <!-- values to be added later -->
+            </select>
+          </div>
+        </div>
+
+        <!-- City of Employment - HIDDEN BY DEFAULT -->
+        <div id="cityOfEmploymentField" class="mb-3 hidden">
+          <label for="cityOfEmployment" class="block text-sm font-medium text-gray-700">
+            City of Employment<span class="star">*</span>
+          </label>
+          <input
+            type="text"
+            id="cityOfEmployment"
+            name="City_of_Employment__c"
+            class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm"
+            autocomplete="off"
+          />
+        </div>
+
+        <!-- License State and License Number in one row -->
+        <div class="flex space-x-4 mb-3">
+          <div class="flex-1">
+            <label for="licenseState" class="block text-sm font-medium text-gray-700">
+              License State<span class="star">*</span>
+            </label>
+            <select
+              id="licenseState"
+              name="License_State__c"
+              class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm"
+            >
+              <option value="">--Select--</option>
+              <!-- values to be added later -->
+            </select>
+          </div>
+          <div class="flex-1">
+            <label for="licenseNumber" class="block text-sm font-medium text-gray-700">
+              License Number<span class="star">*</span>
+            </label>
+            <input
+              type="text"
+              id="licenseNumber"
+              name="License_Number__c"
+              class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Hidden Salesforce fields -->
+      <input type="hidden" name="oid" value="00DU7000006EuID" />
+      <input type="hidden" name="recordType" id="recordType" value="012U7000003Hjv3IAC" />
+      <input type="hidden" name="retURL" value="https://bennettandporter.com/" />
+      <input type="hidden" name="first_name" value="Add Driver Test AutoOwners New" />
+      <input type="hidden" name="last_name" value="Test Demo" />
+      <input type="hidden" name="status" value="New" />
+      <input type="hidden" name="phone" value="28436836129" />
+      <input type="hidden" name="lead_source" value="Web Form" />
+      <input type="hidden" name="company" value="Test Company" />
+      <input type="hidden" name="Debug_Notes__c" value="AutoOwners Test: 2025-06-27 07:21AM" />
+      <input type="hidden" name="delete_Action_Form__c" value="1" />
+      <input type="hidden" id="formDataJson" name="Form_Captured_Data__c" value="" />
+      <input type="hidden" id="missingFormData" name="Form_Missing_Data__c" value="" />
+                    <input type="hidden" name="Carrier__c" value ="Auto Owners">
+
+
+      <!-- Submit button -->
+      <div class="flex justify-end mt-6">
+        <button
+          type="button"
+          id="reviewBtn"
+          class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl hover:bg-blue-700 transition"
+        >
+          Review and Submit
+        </button>
+      </div>
+    </form>
+
+    <!-- Confirmation Dialog -->
+    <div
+      id="dialog"
+      class="hidden fixed inset-0 flex items-center justify-center modal-bg z-50"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="dialogTitle"
+    >
+      <div class="bg-white rounded-lg p-6 max-w-md w-full shadow-lg text-gray-800">
+        <h3 id="dialogTitle" class="text-lg font-semibold mb-4"></h3>
+        <ul id="missingFieldsList" class="mb-4 text-red-600 text-sm"></ul>
+        <div class="flex justify-end space-x-3" id="dialogButtons">
+          <button
+            id="proceedBtn"
+            class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 font-medium"
+          >
+            Proceed to End Request
+          </button>
+          <button
+            id="editBtn"
+            class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 font-medium"
+          >
+            Edit
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("mainForm");
+        const reviewBtn = document.getElementById("reviewBtn");
+        const dialog = document.getElementById("dialog");
+        const dialogTitle = document.getElementById("dialogTitle");
+        const missingFieldsList = document.getElementById("missingFieldsList");
+        const proceedBtn = document.getElementById("proceedBtn");
+        const editBtn = document.getElementById("editBtn");
+
+        // Employment fields containers
+        const employmentFieldsContainer = document.getElementById("employmentFields");
+        const cityOfEmploymentField = document.getElementById("cityOfEmploymentField");
+        const relationshipSelect = document.getElementById("driverRelationship");
+
+        // Middle Name Logic
+        const middleNameInput = document.getElementById("driverMiddleName");
+        middleNameInput.addEventListener("input", function () {
+          if (middleNameInput.value.length > 1) {
+            middleNameInput.value = middleNameInput.value.charAt(0);
+          }
+        });
+
+        // Toggle employment fields based on relationship
+        function toggleEmploymentFields() {
+          const relationshipValue = relationshipSelect.value;
+          const shouldShow = relationshipValue === "Spouse" || relationshipValue === "Unrelated Named Insured";
+          
+          if (shouldShow) {
+            employmentFieldsContainer.classList.remove("hidden");
+            cityOfEmploymentField.classList.remove("hidden");
+            // Reset fields when shown
+            document.getElementById("businessIndustry").value = "";
+            document.getElementById("occupation").value = "";
+            document.getElementById("cityOfEmployment").value = "";
+          } else {
+            employmentFieldsContainer.classList.add("hidden");
+            cityOfEmploymentField.classList.add("hidden");
+          }
+        }
+
+        // Base field data (always validated)
+        const baseFieldData = [
+          { id: "email", label: "Email", type: "email" },
+          { id: "00NU7000005zuX3", label: "Policy Number" },
+          { id: "00NU7000005zuLl", label: "Effective Date (MM/DD/YYYY)", type: "date" },
+          { id: "driverFirstName", label: "First Name" },
+          { id: "driverLastName", label: "Last Name" },
+          { id: "driverDOB", label: "Date of Birth (MM/DD/YYYY)", type: "date" },
+          { id: "driverGender", label: "Gender" },
+          { id: "driverMaritalStatus", label: "Marital Status" },
+          { id: "driverRelationship", label: "Relationship" },
+          { id: "licenseState", label: "License State" },
+          { id: "licenseNumber", label: "License Number" }
+        ];
+
+        // Employment field data (conditionally validated)
+        const employmentFieldData = [
+          { id: "businessIndustry", label: "Business/Industry" },
+          { id: "occupation", label: "Occupation" },
+          { id: "cityOfEmployment", label: "City of Employment" }
+        ];
+
+        function isValidDateFormat(value) {
+          return /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/.test(value);
+        }
+
+        let formDataJsonInput = document.getElementById("formDataJson");
+        if (!formDataJsonInput) {
+          formDataJsonInput = document.createElement("input");
+          formDataJsonInput.type = "hidden";
+          formDataJsonInput.id = "formDataJson";
+          formDataJsonInput.name = "Form_Captured_Data__c";
+          form.appendChild(formDataJsonInput);
+        }
+
+        let missingFormDataInput = document.getElementById("missingFormData");
+        if (!missingFormDataInput) {
+          missingFormDataInput = document.createElement("input");
+          missingFormDataInput.type = "hidden";
+          missingFormDataInput.id = "missingFormData";
+          missingFormDataInput.name = "Form_Missing_Data__c";
+          form.appendChild(missingFormDataInput);
+        }
+
+        // Enhanced validation that includes conditional employment fields
+        function validateFields() {
+          const missing = [];
+          
+          // Always validate base fields
+          baseFieldData.forEach((field) => {
+            const input = document.getElementById(field.id);
+            if (field.type === "email") {
+              if (!input.value.trim() || !input.checkValidity()) {
+                missing.push(field.label);
+              }
+            } else if (field.type === "date") {
+              if (!input.value.trim() || !isValidDateFormat(input.value.trim())) {
+                missing.push(field.label + " (Format MM/DD/YYYY)");
+              }
+            } else {
+              if (!input.value.trim()) {
+                missing.push(field.label);
+              }
+            }
+          });
+
+          // Conditionally validate employment fields if visible
+          const relationshipValue = relationshipSelect.value;
+          const shouldValidateEmployment = relationshipValue === "Spouse" || relationshipValue === "Unrelated Named Insured";
+          
+          if (shouldValidateEmployment) {
+            employmentFieldData.forEach((field) => {
+              const input = document.getElementById(field.id);
+              if (!input.value.trim()) {
+                missing.push(field.label);
+              }
+            });
+          }
+
+          return missing;
+        }
+
+        reviewBtn.addEventListener("click", () => {
+          let missing = validateFields();
+
+          const completedData = [];
+          
+          // Add base fields
+          baseFieldData.forEach((field) => {
+            const input = document.getElementById(field.id);
+            const value = input.value.trim();
+            if (!missing.includes(field.label) && value) {
+              completedData.push(`${field.label} = ${value}`);
+            }
+          });
+
+          // Add employment fields if visible and completed
+          const relationshipValue = relationshipSelect.value;
+          const shouldIncludeEmployment = relationshipValue === "Spouse" || relationshipValue === "Unrelated Named Insured";
+          
+          if (shouldIncludeEmployment) {
+            employmentFieldData.forEach((field) => {
+              const input = document.getElementById(field.id);
+              const value = input.value.trim();
+              if (!missing.includes(field.label) && value) {
+                completedData.push(`${field.label} = ${value}`);
+              }
+            });
+          }
+
+          // Store completed data in hidden field
+          formDataJsonInput.value = completedData.join("\n");
+
+          // Store missing fields in hidden field
+          missingFormDataInput.value = missing.join("\n");
+
+          if (missing.length) {
+            dialogTitle.textContent = "Below Mandatory Fields are missing and the Team will contact you shortly.";
+            missingFieldsList.innerHTML = missing.map((f) => `<li>${f}</li>`).join("");
+          } else {
+            dialogTitle.textContent = "All mandatory fields are completed. Ready to submit your request?";
+            missingFieldsList.innerHTML = "";
+          }
+
+          dialog.classList.remove("hidden");
+        });
+
+        editBtn.addEventListener("click", () => {
+          dialog.classList.add("hidden");
+        });
+
+        proceedBtn.addEventListener("click", () => {
+          dialog.classList.add("hidden");
+          form.submit();
+        });
+
+        window.addEventListener("click", (e) => {
+          if (e.target === dialog) {
+            dialog.classList.add("hidden");
+          }
+        });
+        window.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && !dialog.classList.contains("hidden")) {
+            dialog.classList.add("hidden");
+          }
+        });
+
+        // Attach relationship change listener
+        relationshipSelect.addEventListener("change", toggleEmploymentFields);
+        
+        // Initialize on page load
+        toggleEmploymentFields();
+
+        // Initialize Pikaday datepickers
+        new Pikaday({
+          field: document.getElementById("00NU7000005zuLl"),
+          format: "MM/DD/YYYY",
+          toString(date) {
+            const day = String(date.getDate()).padStart(2, "0");
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const year = date.getFullYear();
+            return `${month}/${day}/${year}`;
+          },
+          parse(dateString) {
+            const [month, day, year] = dateString.split("/");
+            return new Date(year, month - 1, day);
+          },
+        });
+
+        new Pikaday({
+          field: document.getElementById("driverDOB"),
+          format: "MM/DD/YYYY",
+          toString(date) {
+            const day = String(date.getDate()).padStart(2, "0");
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const year = date.getFullYear();
+            return `${month}/${day}/${year}`;
+          },
+          parse(dateString) {
+            const [month, day, year] = dateString.split("/");
+            return new Date(year, month - 1, day);
+          },
+        });
+      });
+    </script>
+  </body>
+</html>
