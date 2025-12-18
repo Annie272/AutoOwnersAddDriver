@@ -167,6 +167,16 @@
              <option value="Other">Other</option>
            </select>
          </div>
+         <div class="flex-1">
+    <label for="driverStatus" class="block text-sm font-medium text-gray-700">
+      Driver Status<span class="star">*</span>
+    </label>
+    <select id="driverStatus" name="Driver_Status_AutoOwners__c" class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm">
+      <option value="">--Select--</option>
+      <option value="Driver" selected>Driver</option>
+      
+    </select>
+  </div>
         </div>
 
        
@@ -629,6 +639,8 @@
       <input type="hidden" id="formDataJson" name="Form_Captured_Data__c" value="" />
       <input type="hidden" id="missingFormData" name="Form_Missing_Data__c" value="" />
                      <input type="hidden" name="Carrier__c" value ="Auto Owners">
+                  <!--   <input type="hidden" name="debug" value=1>                              
+<input type="hidden" name="debugEmail" value="annie.rawal@caeliusconsulting.com">-->
 
       <!-- Submit button -->
       <div class="flex justify-end mt-6">
@@ -743,22 +755,27 @@ const goodStudentNote = document.getElementById('goodStudentNote');
 }
 
 
-        // Base field data (always validated)
-        const baseFieldData = [
-  { id: "email", label: "Email", type: "email" },
-  { id: "00NU7000005zuX3", label: "Policy Number" },
-  { id: "00NU7000005zuLl", label: "Effective Date (MM/DD/YYYY)", type: "date" },
-  { id: "driverFirstName", label: "First Name" },
-  { id: "driverLastName", label: "Last Name" },
-  { id: "driverDOB", label: "Date of Birth (MM/DD/YYYY)", type: "date" },
-  { id: "driverGender", label: "Gender" },
-  { id: "driverMaritalStatus", label: "Marital Status" },
-  { id: "driverRelationship", label: "Relationship" },
-  { id: "licenseState", label: "License State" },
-  { id: "licenseNumber", label: "License Number" },
-  // NEW: always required Yes/No question
-  { id: "moreVehiclesThanDrivers", label: "Is number of vehicles more than number of drivers?" }
+const baseFieldData = [
+  { id: 'email', label: 'Email', type: 'email' },
+  { id: '00NU7000005zuX3', label: 'Policy Number' },
+  { id: '00NU7000005zuLl', label: 'Effective Date MM/DD/YYYY', type: 'date' },
+  { id: 'driverFirstName', label: 'First Name' },
+  { id: 'driverLastName', label: 'Last Name' },
+  { id: 'driverDOB', label: 'Date of Birth MM/DD/YYYY', type: 'date' },
+  { id: 'driverGender', label: 'Gender' },
+  { id: 'driverMaritalStatus', label: 'Marital Status' },
+  { id: 'driverRelationship', label: 'Relationship' },
+  { id: 'driverStatus', label: 'Driver Status' },
+  { id: 'licenseState', label: 'License State' },
+  { id: 'licenseNumber', label: 'License Number' },
+  { id: 'moreVehiclesThanDrivers', label: 'Is number of vehicles more than number of drivers?' }
 ];
+
+function isRequestTypeSelected() {
+  const radios = document.querySelectorAll('input[name="Is_this_a_quote_or_a_change_request__c"]:checked');
+  return radios.length > 0;
+}
+
 
 const vehicleLogicFieldData = [
   { id: "vehicleDriverAge", label: "Age" },
@@ -867,22 +884,26 @@ updateVinVisibility();
          const missing = [];
          
          // Always validate base fields
-         baseFieldData.forEach((field) => {
-           const input = document.getElementById(field.id);
-           if (field.type === "email") {
-             if (!input.value.trim() || !input.checkValidity()) {
-               missing.push(field.label);
-             }
-           } else if (field.type === "date") {
-             if (!input.value.trim() || !isValidDateFormat(input.value.trim())) {
-               missing.push(field.label );
-             }
-           } else {
-             if (!input.value.trim()) {
-               missing.push(field.label);
-             }
-           }
-         });
+       baseFieldData.forEach(field => {
+  const input = document.getElementById(field.id);
+  if (field.type === 'email') {
+    if (!input.value.trim() || !input.checkValidity()) {
+      missing.push(field.label);
+    }
+  } else if (field.type === 'date') {
+    if (!input.value.trim() || !isValidDateFormat(input.value.trim())) {
+      missing.push(field.label);
+    }
+  } else if (!input.value.trim()) {
+    missing.push(field.label);
+  }
+});
+// Validate Request Type radios separately
+if (!isRequestTypeSelected()) {
+  missing.push('Request Type');
+}
+
+         
 
          
          // Conditionally validate employment fields if visible
