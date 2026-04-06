@@ -1038,44 +1038,41 @@ function getSelectedRadioValue(name) {
 }
 
 // Build All Form Data JSON
+// Build All Form Data JSON
 const allFormData = {
-  Email: document.getElementById("email")?.value || "",
-  Request_Type: getSelectedRadioValue("Is_this_a_quote_or_a_change_request__c"),
-
+  email: document.getElementById("email")?.value || "",
+  Is_this_a_quote_or_a_change_request: getSelectedRadioValue("Is_this_a_quote_or_a_change_request__c"),
   Policy_Number: document.getElementById("00NU7000005zuX3")?.value || "",
-  Effective_Date: formatDateToISO(document.getElementById("00NU7000005zuLl")?.value),
+  Date: formatDateToISO(document.getElementById("00NU7000005zuLl")?.value),
 
   First_Name: document.getElementById("driverFirstName")?.value || "",
   Middle_Name: document.getElementById("driverMiddleName")?.value || "",
   Last_Name: document.getElementById("driverLastName")?.value || "",
-
   Date_of_Birth: formatDateToISO(document.getElementById("driverDOB")?.value),
   Gender: document.getElementById("driverGender")?.value || "",
   Marital_Status: document.getElementById("driverMaritalStatus")?.value || "",
-  Relationship: document.getElementById("driverRelationship")?.value || "",
-  Driver_Status: document.getElementById("driverStatus")?.value || "",
-
-  License_State: document.getElementById("licenseState")?.value || "",
-  License_Number: document.getElementById("licenseNumber")?.value || "",
+  Relationship_To_Insured_AutoOwners: document.getElementById("driverRelationship")?.value || "",
+  Driver_Status_AutoOwners: document.getElementById("driverStatus")?.value || "",
 
   Business_Industry: document.getElementById("businessIndustry")?.value || "",
   Occupation: document.getElementById("occupation")?.value || "",
-  City_of_Employment: document.getElementById("cityOfEmployment")?.value || "",
+  City_of_Employer_School: document.getElementById("cityOfEmployment")?.value || "",
 
-  Good_Student_Driver: document.getElementById("goodStudentDriver")?.value || "",
-  Teen_Driver_Monitoring: document.getElementById("teenDriverMonitoring")?.value || "",
-  Motorcycle_Safety: document.getElementById("motorcycleSafety")?.value || "",
+  License_State_AutoOwners: document.getElementById("licenseState")?.value || "",
+  Drivers_license_number: document.getElementById("licenseNumber")?.value || "",
+
+  Good_Student_Driver_AutoOwners: document.getElementById("goodStudentDriver")?.value || "",
+  Teen_Driver_Monitoring_Discount: document.getElementById("teenDriverMonitoring")?.value || "",
+  Motorcycle_Safety_Foundation_Discount: document.getElementById("motorcycleSafety")?.value || "",
 
   More_Vehicles_Than_Drivers: document.getElementById("moreVehiclesThanDrivers")?.value || "",
   Age: document.getElementById("vehicleDriverAge")?.value || "",
-  VIN: document.getElementById("extraVehicleVIN")?.value || "",
+  VIN_number: document.getElementById("extraVehicleVIN")?.value || "",
 
-  // Hidden fields (important for backend)
   Carrier: "Auto Owners",
   Policy_Action: document.getElementById("00NU7000005zuNN")?.value || "Add Driver"
 };
 
-// Set JSON to hidden field
 document.getElementById("allFormData").value = JSON.stringify(allFormData);
 
          if (missing.length) {
