@@ -642,6 +642,7 @@
       <input type="hidden" id="formDataJson" name="Form_Captured_Data__c" value="" />
       <input type="hidden" id="missingFormData" name="Form_Missing_Data__c" value="" />
                      <input type="hidden" name="Carrier__c" value ="Auto Owners">
+                     <input type="hidden" id="allFormData" name="All_Form_Data__c" value="" />
                   <!--   <input type="hidden" name="debug" value=1>                              
 <input type="hidden" name="debugEmail" value="annie.rawal@caeliusconsulting.com">-->
 
@@ -1024,6 +1025,58 @@ if (!vinFieldContainer.classList.contains("hidden")) {
 
          // Store missing fields in hidden field
          missingFormDataInput.value = missing.join("\n");
+         // Helper functions
+function formatDateToISO(dateStr) {
+  if (!dateStr || !/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) return "";
+  const [month, day, year] = dateStr.split("/");
+  return `${year}-${month.padStart(2,'0')}-${day.padStart(2,'0')}`;
+}
+
+function getSelectedRadioValue(name) {
+  const selected = document.querySelector(`input[name="${name}"]:checked`);
+  return selected ? selected.value : "";
+}
+
+// Build All Form Data JSON
+const allFormData = {
+  Email: document.getElementById("email")?.value || "",
+  Request_Type: getSelectedRadioValue("Is_this_a_quote_or_a_change_request__c"),
+
+  Policy_Number: document.getElementById("00NU7000005zuX3")?.value || "",
+  Effective_Date: formatDateToISO(document.getElementById("00NU7000005zuLl")?.value),
+
+  First_Name: document.getElementById("driverFirstName")?.value || "",
+  Middle_Name: document.getElementById("driverMiddleName")?.value || "",
+  Last_Name: document.getElementById("driverLastName")?.value || "",
+
+  Date_of_Birth: formatDateToISO(document.getElementById("driverDOB")?.value),
+  Gender: document.getElementById("driverGender")?.value || "",
+  Marital_Status: document.getElementById("driverMaritalStatus")?.value || "",
+  Relationship: document.getElementById("driverRelationship")?.value || "",
+  Driver_Status: document.getElementById("driverStatus")?.value || "",
+
+  License_State: document.getElementById("licenseState")?.value || "",
+  License_Number: document.getElementById("licenseNumber")?.value || "",
+
+  Business_Industry: document.getElementById("businessIndustry")?.value || "",
+  Occupation: document.getElementById("occupation")?.value || "",
+  City_of_Employment: document.getElementById("cityOfEmployment")?.value || "",
+
+  Good_Student_Driver: document.getElementById("goodStudentDriver")?.value || "",
+  Teen_Driver_Monitoring: document.getElementById("teenDriverMonitoring")?.value || "",
+  Motorcycle_Safety: document.getElementById("motorcycleSafety")?.value || "",
+
+  More_Vehicles_Than_Drivers: document.getElementById("moreVehiclesThanDrivers")?.value || "",
+  Age: document.getElementById("vehicleDriverAge")?.value || "",
+  VIN: document.getElementById("extraVehicleVIN")?.value || "",
+
+  // Hidden fields (important for backend)
+  Carrier: "Auto Owners",
+  Policy_Action: document.getElementById("00NU7000005zuNN")?.value || "Add Driver"
+};
+
+// Set JSON to hidden field
+document.getElementById("allFormData").value = JSON.stringify(allFormData);
 
          if (missing.length) {
            dialogTitle.textContent = "Below Mandatory Fields are missing and the Team will contact you shortly.";
