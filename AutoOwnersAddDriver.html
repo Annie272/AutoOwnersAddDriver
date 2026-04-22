@@ -1066,7 +1066,9 @@ const allFormData = {
   Motorcycle_Safety_Foundation_Discount: document.getElementById("motorcycleSafety")?.value || "",
 
   More_Vehicles_Than_Drivers: document.getElementById("moreVehiclesThanDrivers")?.value || "",
-  Age: document.getElementById("vehicleDriverAge")?.value || "",
+Age: (vehicleAgeContainer.classList.contains('hidden') || !vehicleAgeInput.value.trim())
+    ? "0"
+    : vehicleAgeInput.value.trim(),
   VIN_number: document.getElementById("extraVehicleVIN")?.value || "",
 
   Carrier: "Auto Owners",
